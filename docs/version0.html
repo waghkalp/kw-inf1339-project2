@@ -1,193 +1,24 @@
 <html>
-    <head>
-        <style>
-            .standardTable {border: solid;
-                    border-collapse: collapse;}
-            .blackbox{border: solid;
-                      height: 100px;
-                      width: 100px;
-                      text-align: center;
-                      background-color: black;
-                      border-color: white;
-                      color: yellow;}
-            .sevenSegmentTable {color: white; border-color: white; border: solid; border-collapse: collapse;}
-            .notsevenSegmentTable {border: none;}
-            .horizontal {width: 40px; height: 10px;}
-            .vertical {width: 10px; height: 40px;}
-            .red {background-color: red;}
-            .corner {width: 10px; height: 10px;}
-            .middle {width: 40px; height: 40px;}
-   </style>
+<head>
+     <title>Kalpita INF1339 Project 2</title>  
+<style>
+    .output {color: chartreuse;}
+</style>
 <script>
-    function display(number) {
-        //for now just display the number in a <p> element
-        document.getElementById("decimal_input").innerHTML=number
-        var bin = dec2bin(number)
-        document.getElementById("binary_output").innerHTML=bin
+    function hello() {
         
-        //send binary number to function bin2ssd()
-        document.getElementById("bin2ssd_input").innerHTML=bin
-        var ssd = bin2ssd(bin)
-        document.getElementById("bin2ssd_output").innerHTML=ssd
-        
-        //send ssd signals to function illuminate_segments()
-        document.getElementById("segments").innerHTML=ssd
-        illuminate(ssd)
-        document.getElementById("illuminate_output").innerHTML='done'
-        
+        document.getElementById("test_output").innerHTML = "HELLO"
     }
     
-    function bin2ssd(binary) {
-        //convert the four bit input string into w,x,y,z variables
-        var w = false //set them all to false at first then change if input is '1' 
-        var x = false
-        var y = false
-        var z = false
-        if (binary[0] == '1') {w=true}
-        if (binary[1] == '1') {x=true}
-        if (binary[2] == '1') {y=true}
-        if (binary[3] == '1') {z=true}
-        //"compute" the value of logical expression for each segment
-        //our expression for A was ~wxz + w~x~y + ~x~y~z + ~wy
-        var a = !w&x&z || w&!x&!y || !x&!y&!z || !w&y
-        var b = !w&!x || !w&!y&!z || !w&y&z || w&!x&!y
-        var c = !x&!y || !w&y&z || !w&x&!y || !w&x&y
-        var d = w || y&!z || !x&!z || !x&y || x&!y&z
-        var e = !w&y&!z || !x&!y&!z
-        var f = !w&!y&!z || !w&x || w&!x&!y
-        var g = !w&!x&y || !w&x&!y || !w&y&!z || w&!x&!y
-                
-        //assemble and return the output
-        //we will build up the output string element by element
-        var output = ''
-        if (a) {output = output + '1'} else {output = output + '0'}
-        if (b) {output = output + '1'} else {output = output + '0'}
-        if (c) {output = output + '1'} else {output = output + '0'}
-        if (d) {output = output + '1'} else {output = output + '0'}
-        if (e) {output = output + '1'} else {output = output + '0'}
-        if (f) {output = output + '1'} else {output = output + '0'}
-        if (g) {output = output + '1'} else {output = output + '0'}
-        
-        return (output) //initial default just illuminates segment A
-    }
+</script>
     
-    function illuminate(signals) {
-        document.getElementById("segments").innerHTML = signals
-        if (signals[0] == '1') { document.getElementById("segmentA").innerHTML = 'ON'
-        document.getElementById("segmentA").setAttribute("class","red")}
-        else { document.getElementById("segmentA").innerHTML = ''
-             document.getElementById("segmentA").setAttribute("class","black")}
-        if (signals[1] == '1') { document.getElementById("segmentB").innerHTML = 'ON'
-                               document.getElementById("segmentB").setAttribute("class","red")}
-        else { document.getElementById("segmentB").innerHTML = ''
-             document.getElementById("segmentB").setAttribute("class","black")}
-        if (signals[2] == '1') { document.getElementById("segmentC").innerHTML = 'ON'
-                               document.getElementById("segmentC").setAttribute("class","red")}
-        else { document.getElementById("segmentC").innerHTML = ''
-             document.getElementById("segmentC").setAttribute("class","black")}
-        if (signals[3] == '1') { document.getElementById("segmentD").innerHTML = 'ON'
-                               document.getElementById("segmentD").setAttribute("class","red")}
-        else { document.getElementById("segmentD").innerHTML = ''
-             document.getElementById("segmentD").setAttribute("class","black")}
-        if (signals[4] == '1') { document.getElementById("segmentE").innerHTML = 'ON'
-                               document.getElementById("segmentE").setAttribute("class","red")}
-        else { document.getElementById("segmentE").innerHTML = ''
-             document.getElementById("segmentE").setAttribute("class","black")}
-        if (signals[5] == '1') { document.getElementById("segmentF").innerHTML = 'ON'
-                               document.getElementById("segmentF").setAttribute("class","red")}
-        else { document.getElementById("segmentF").innerHTML = ''
-             document.getElementById("segmentF").setAttribute("class","black")}
-        if (signals[6] == '1') { document.getElementById("segmentG").innerHTML = 'ON'
-                               document.getElementById("segmentG").setAttribute("class","red")}
-        else { document.getElementById("segmentG").innerHTML = ''
-             document.getElementById("segmentG").setAttribute("class","black")}
-                
-    }
-    
-    function dec2bin(decimal){
-        //first refinement : lazy lazy way of finding binary
-        //version of decimal input - we just look it up in a 
-        //list
-        
-        binary = ['0000','0001','0010','0011','0100','0101','0110','0111','1000','1001']
-        return (binary[decimal])
-    }
-        </script>
 </head>
 <body>
-    <h2>Version 9 Segment Display</h2>
-    <table class="standardTable">
-        <tr>
-        <td class="blackbox"><h3>Keypad</h3>
-        <button type="button"
-                onclick="display(1)">1</button>
-        <button type="button"
-                onclick="display(2)">2</button>
-        <button type="button"
-                onclick="display(3)">3</button>
-        <button type="button"
-                onclick="display(4)">4</button>
-        <button type="button"
-                onclick="display(5)">5</button>
-        <button type="button"
-                onclick="display(6)">6</button>
-        <button type="button"
-                onclick="display(7)">7</button>
-        <button type="button"
-                onclick="display(8)">8</button>
-        <button type="button"
-                onclick="display(9)">9</button>
-        <button type="button"
-                onclick="display(0)">0</button>
-            
-        <td class="blackbox"><h3>Decimal to
-            Binary</h3>
-            <p id="decimal_input">???</p>
-            <p id="binary_output">???</p>
-            </td>
-        <td class="blackbox"><h3>Binary to SSD Signals</h3>
-            <p id="bin2ssd_input"></p>
-            <p id="bin2ssd_output"></p>
-            </td>
-        <td class="blackbox"><h3>Illuminate Segments</h3>
-            <p id="segments"></p>
-            <table>
-                <tr>
-                    <td class="notsevenSegmentTable corner">1</td>
-                    <td id ="segmentA"
-                        class="sevenSegmentTable horizontal">A</td>
-                    <td class="notsevenSegmentTable corner">3</td>
-                </tr>
-                <tr>
-                    <td id ="segmentF"
-                        class="sevenSegmentTable vertical">F</td>
-                    <td class="notsevenSegmentTable middle">2</td>
-                    <td id ="segmentB"
-                        class="sevenSegmentTable vertical">B</td>
-                </tr>
-                <tr>
-                    <td class="notsevenSegmentTable corner">1</td>
-                    <td id ="segmentG"
-                        class="sevenSegmentTable horizontal">G</td>
-                    <td class="notsevenSegmentTable corner">3</td>
-                </tr>
-                <tr>
-                    <td id ="segmentE"
-                        class="sevenSegmentTable vertical">E</td>
-                    <td class="notsevenSegmentTable middle">2</td>
-                    <td id ="segmentC"
-                        class="sevenSegmentTable vertical">C</td>
-                </tr>
-                <tr>
-                    <td class="notsevenSegmentTable corner">1</td>
-                    <td id ="segmentD"
-                        class="sevenSegmentTable horizontal">D</td>
-                    <td class="notsevenSegmentTable corner">3</td>
-                </tr>
-            </table>
-            
-        </td>
-        </tr>
-    </table>
+    <h3> API Project A16 Version 0</h3>
+    <!--create a button that will start a function called "hello()"-->
+    <button type="button" onclick="hello()"> Click Here</button>
+   <!--a <P> (paragraph) element we will use for output-->
+    <!-- it's name is "sentinel" and it is styled by the class "output"-->
+    <p id="test_output" class="output"></p>
 </body>
 </html>
