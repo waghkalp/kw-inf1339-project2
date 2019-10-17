@@ -1,0 +1,30 @@
+<html>
+<head>
+    <!--LOAD p5.js library so we can use a few of its tools -->
+    <script src ="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script>
+        //STORE some data in "global" variables known to all functions
+        var url= "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rainbow&api-key=LG6GElhQqeAXZGJJnpDf28IK7mRQtB8e";
+        var articleCount = 0
+        
+        //SETUP is a standard way P5 starts a script.
+        function setup() {
+            //P5 usually used for drawing
+            noCanvas();
+            //SEND the URL and when the data comes back, run the function 
+            loadJSON(url,gotData);
+        }
+        
+        //gotData for now just announces itself
+        function gotData(data) {
+            alert("FUNCTION GOT DATA ACTIVATED")
+        }
+    </script>
+        
+    
+</head>
+<body>
+    <h1> New York Times API: Articles from all the time about rainbows</h1>
+    
+</body>
+</html>
