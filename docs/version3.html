@@ -1,0 +1,60 @@
+<html>
+<head>
+    <!--LOAD p5.js library so we can use a few of its tools -->
+    <script src ="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <style>
+    .output {color: chartreuse;}
+</style>
+    <script>
+        //STORE some data in "global" variables known to all functions
+        var url= "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rainbow&api-key=LG6GElhQqeAXZGJJnpDf28IK7mRQtB8e";
+        var articleCount = 0
+        
+        //SETUP is a standard way P5 starts a script.
+        function setup() {
+            //P5 usually used for drawing
+            noCanvas();
+            //SEND the URL and when the data comes back, run the function 
+            loadJSON(url,gotData);
+        }
+        
+        //gotData for now just announces itself
+        function gotData(data) {
+            appendToPage (data)
+            //alert("FUNCTION GOT DATA ACTIVATED")
+            var text =''
+            //for (i=0; i < data.response.docs.length; i++) {
+                //text = text + '<br />' + data.response.docs[i].headline.main
+                //}
+            //document.getElementById("test_output").innerHTML = text
+        }
+        
+        function appendToPage(data) {
+                //MOVE the docs array part of JSON object to "articles" to save typing
+                var articles = data.response.docs;
+                //LOOP over the array, creating a heading and a paragraph for each article
+                for (var i = 0; i < articles.length; i++) {
+                    //increment the counter (so we can number the headlines)
+                    articleCount++
+                    //create a heading element, put text in it, append it to <BODY>
+                    h = document.createElement('h3')
+                    h.innerHTML = '(' + articleCount + ') ' + articles[i].headline.main
+                    document.body.appendChild(h);
+                    //create a paragraph element, put text in it, append it to <BODY>
+                    p = document.createElement('p')
+                    p.innerHTML = articles[i].snippet
+                    document.body.appendChild(p);  
+                  }
+        }
+    </script>
+        
+    
+</head>
+<body>
+    <h1> New York Times API: Articles from all the time about rainbows</h1>
+    <!--a <P> (paragraph) element we will use for output-->
+    <!-- it's name is "test_output" and it is styled by the class "output"-->
+    <p id="test_output" class="output"></p>
+    
+</body>
+</html>
